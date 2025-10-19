@@ -1,0 +1,26 @@
+services:
+  database:
+    container_name: db-container
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+
+  user:
+    container_name: user-service
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    ports:
+    - 4000:4000
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+    - user-service
+    ports:
+      - 80:80
