@@ -1,8 +1,21 @@
 const { registerSchema } = require('../schemas/RegisterSchemas');
+const {UserPrismaFactory} = require("../../repositories/prisma/UserPrismaRepository");
+const {MakeRegister} = require("../../user-cases/factories/makeRegister");
 
-function RegisterController(req, res){
+async function RegisterController(req, res){
     try {
         const { name, cpf, email, password, confirmPassword } = registerSchema.parse(req.body);
+
+        const userFactory = new UserPrismaFactory();
+        const makeRegister = MakeRegister(userFactory);
+
+        await registerFactory.execute({
+            name,
+            cpf,
+            email,
+            password,
+        });
+        
         res.status(200).json({
             message: "User registration successful!",
         });
@@ -12,6 +25,4 @@ function RegisterController(req, res){
         });
     }
 }
-module.exports = {
-    RegisterController,
-};
+module.exports = {RegisterController};

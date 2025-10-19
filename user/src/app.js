@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
 const {UserRoutes} = require("./http/controllers/routes");
-const { use } = require("react");
 
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 app.use("/api", UserRoutes);
 
-app.use(req, res, next => {
+app.use((req, res, next) => {
     res.status(404).json({
         message: "Route not found",
     });

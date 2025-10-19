@@ -7,10 +7,12 @@
         "dev": "node --watch .src/server.js"
     },
     "dependencies": {
+        "@prisma/client": "^6.17.1",
         "express": "^5.1.0",
         "zod": "^4.1.12"
     },
     "devDependencies": {
+        "bcrypt": "^6.0.0",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3"
     }
