@@ -1,32 +1,37 @@
-const {prisma} = require("../../lib/prisma");
+const { prisma } = require("../../lib/prisma");
 
-class UserprismaRepositories{
-    async save (data) {
-        const user = await prisma.user.create({
-            data,
-        });
-        return user;
+class UserPrismaRepository {
+  async save(data) {
+    try {
+      const user = await prisma.user.create({
+        data,
+      });
+
+      return user;
+    } catch (err) {
+      console.error(err);
     }
-    async findByCPF (value) {
-        const user = await prisma.user.findUnique({
-            where: {
-                cpf: value,
-            },
-            select: {
-                name: true,
-                email: true,
-            },
-        });
-        return user;
+  }
+
+  async findByCPF(value) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          cpf: value,
+        },
+      });
+
+      return user;
+    } catch (err) {
+      console.error(err);
     }
+  }
 }
 
 class UserPrismaFactory {
-    createRepository() {
-        return new UserprismaRepositories();
-    }
+  createRepository() {
+    return new UserPrismaRepository();
+  }
 }
 
-module.exports = {
-    UserPrismaFactory,
-};
+module.exports = { UserPrismaFactory };

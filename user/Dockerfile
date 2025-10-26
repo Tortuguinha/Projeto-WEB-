@@ -1,13 +1,15 @@
-FROM node-alpine
+FROM node:alpine
 
-WORKDIR /user
+WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
+RUN npx prisma generate
+
 EXPOSE 4000
 
-CMD [ "npm", "run", "start" ]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
