@@ -19,10 +19,10 @@ services:
       timeout: 5s
       retries: 5
 
-  user-service:
-    container_name: user-service
+  employee-service:
+    container_name: employee-service
     build:
-      context: ./user
+      context: ./employee
       dockerfile: Dockerfile
     depends_on:
       database-service:
@@ -30,7 +30,18 @@ services:
     networks:
       - my_network
     env_file:
-      - ./user/.env
+      - ./employee/.env
+    restart: always
+
+  frontend-service:
+    container_name: frontend-service
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - my_network
+    env_file:
+      - ./frontend/.env
     restart: always
 
   nginx:
@@ -39,11 +50,13 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     depends_on:
-      - user-service
-    networks:
-      - my_network
+      - employee-service
+      - frontend-service
     ports:
       - "80:80"
+    networks:
+      - my_network
+    restart: always
 
 networks:
   my_network:

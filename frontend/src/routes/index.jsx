@@ -1,17 +1,60 @@
-import { createBrowserRouter } from "react-router-dom"
 
-import HomePage from "../pages/Home"
-import DashboardPage from "../pages/Dashboard"
+import { createBrowserRouter, Navigate } from "react-router-dom";
+
+import HomePage from "../pages/Home";
+import NotFoundPage from "../pages/NotFound";
+
+import AuthLayout from "../pages/auth/layout";
+import SignInPage from "../pages/auth/sign-in";
+import SignUpPage from "../pages/auth/sign-up";
+
+
+import DashboardLayout from "../pages/dashboard/layout";
+import DashboardPage from "../pages/dashboard/main";
+import DashboardClients from "../pages/dashboard/clients/main"
+import DashboardComputers from "../pages/dashboard/computers/main"
+import DashboardSettings from "../pages/dashboard/settings/main"
 
 const router = createBrowserRouter([
-	{
-	  path: "/",
-	  element: <HomePage />
-	},
-	{
-	   path: "/dashboard",
-	   element: <DashboardPage />
-	}
+  {
+    path: "/",
+    element: <HomePage />
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { index: true, element: <Navigate to="/auth/sign-in" replace /> }, // redireciona /auth
+      { path: "sign-in", element: <SignInPage /> },
+      { path: "sign-up", element: <SignUpPage /> }
+    ]
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />
+      },
+      {
+        path: "clients",
+        element: <DashboardClients />
+      },
+      {
+        path: "computers",
+        element: <DashboardComputers />
+      },
+      {
+        path: "settings",
+        element: <DashboardSettings />
+      }
+    ]
+  },
+  {
+	path: "*",
+    element: <NotFoundPage />
+  }
 ]);
 
 export default router;

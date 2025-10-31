@@ -1,10 +1,13 @@
 import router from "./routes"
 import { RouterProvider } from "react-router-dom"
+import { AlertProvider } from "./context/AlertContext"
 
 function App() {
 
   return (
-    <RouterProvider router={router} />
+    <AlertProvider>
+      <RouterProvider router={router} />
+    </AlertProvider>
   )
 }
 
