@@ -1,6 +1,10 @@
 const { prisma } = require("../../lib/prisma");
 
 class JWTPrismaRepository {
+  async remove() {
+    
+  }
+
   async store(data) {
     try {
       const user = await prisma.authSession.create({
@@ -15,7 +19,7 @@ class JWTPrismaRepository {
         },
       });
 
-      return user;
+      return user || null;
     } catch (err) {
       console.error(err);
     }
@@ -23,7 +27,9 @@ class JWTPrismaRepository {
 
   async findByEmail(value) {
     try {
-      const user = await prisma.loginAttempt.findUnique()
+      const user = await prisma.loginAttempt.findUnique({
+          
+      })
 
       return user;
     } catch (err) {
