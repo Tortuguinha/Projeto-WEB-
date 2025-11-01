@@ -9,16 +9,16 @@ dotenv.config();
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // define: {
-  //   "process.env.VITE_PORT": JSON.stringify(process.env.VITE_PORT),
-  // },
+  define: {
+    "process.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL),
+  },
   server: {
     port: Number(process.env.VITE_PORT),
     proxy: {
       "/employee": {
-        target: "http://localhost", // onde o Nginx está escutando
+        target: "http://localhost",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/employee/, "/employee"), // mantém o path
+        rewrite: (path) => path.replace(/^\/employee/, "/employee"),
       },
     },
   },
